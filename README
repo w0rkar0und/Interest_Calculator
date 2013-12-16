@@ -1,0 +1,6 @@
+This file was created by PyCharm 2.7.3 for binding GitHub repository
+
+This is a first attempt to build an interest calculator using Python. The premise is to calculate accrued interest on an Interest Bearing Balance (IBB). The IBB is calculated/generated using a number of underlying balance types associated with derivatives trades.
+
+The script takes in an account identifier and returns the accrued interest depending on the account interest formula - defined in a csv table.
+
