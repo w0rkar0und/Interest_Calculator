@@ -163,7 +163,7 @@ def calcStdInterest(SPN):
                     accrued_interest = 0
                     print "Negative Interest Value. Accrued Interest set to 0",'\n'  
             
-                buildAccruedInterest(z, date, form, int_base_rate, rate, ibb, accrued_interest, version)
+                buildAccruedInterest(z, date, form, int_base_rate, rate, ibb, accrued_interest, version, call_type)
             
     else:
             
@@ -181,7 +181,7 @@ def calcStdInterest(SPN):
                 accrued_interest = 0
                 print "Negative Interest Value. Accrued Interest set to 0",'\n'  
             
-            buildAccruedInterest(SPN, date, form, int_base_rate, rate, ibb, accrued_interest, version)
+            buildAccruedInterest(SPN, date, form, int_base_rate, rate, ibb, accrued_interest, version, call_type)
             
     
     writeAccruedInterest(table)
