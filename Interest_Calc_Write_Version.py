@@ -121,7 +121,7 @@ def getRate(SPN):
 
 def buildAccruedInterest(SPN, date, form, int_base_rate, rate, ibb, acc_int, versionID, call_type):
 
-    record = [str(SPN), str(date), form, int_base_rate, round(rate), round(ibb,2), round(acc_int,2), t1, str(call_type)]
+    record = [str(SPN), str(date), form, int_base_rate, round(rate,2), round(ibb,2), round(acc_int,2), t1, str(call_type)]
     table.append(record)
     
 def writeAccruedInterest(table):
