@@ -4,6 +4,20 @@ Created on 13 Dec 2013
 @author: R053016
 '''
 
+#===============================================================================
+# v1 Iteration
+# Functionality:
+#
+# Build Dictionary containing SPN + Balances from CSV
+# Build Dictionary containing SPN + Formula + Haircut from CSV
+# Lookup SPN match in both dictionaries
+# Generate IBB from the Balances Dictionary based on Formula
+# Calculate Applied Interest Rate using haircut
+# Ability to run for one SPN or *ALL SPNs
+# Generate Print output
+#===============================================================================
+
+
 import csv
 import collections as col
 
