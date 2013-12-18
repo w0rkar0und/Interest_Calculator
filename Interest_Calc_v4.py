@@ -4,6 +4,50 @@ Created on 17 Dec 2013
 @author: R053016
 '''
 
+#===============================================================================
+# v1 Iteration
+# Functionality:
+#
+# Build Dictionary containing SPN + Balances from CSV
+# Build Dictionary containing SPN + Formula + Haircut from CSV
+# Lookup SPN match in both dictionaries
+# Generate IBB from the Balances Dictionary based on Formula
+# Calculate Applied Interest Rate using haircut
+# Ability to run for one SPN or *ALL SPNs
+# Generate Print output
+#===============================================================================
+#===============================================================================
+# v2 Iteration
+# Functionality:
+#
+# Write output to CSV file (Accrued Interest.csv):
+# SPN, Processing Date, Formula, Base Rate, Applied Rate, IBB, Accrued Interest
+# , version ID = 0)
+# Added Execution Time "calculation"
+#
+#===============================================================================
+#===============================================================================
+# v3 Iteration
+# Functionality:
+#
+# Build Balances object using the Balances Class to replace the SPN + Balances
+# Dictionary (function buildBalDict)
+# Change calcIBB function to retrieve balance from list of Balances objects
+#
+#===============================================================================
+#===============================================================================
+# v4 Iteration
+# Functionality:
+#
+# Changed Version ID value and added Call Type on record written to the output 
+# CSV (Accrued Interest.csv): 
+# Version ID is now datetime.datetime.now() value generated at start of call to 
+# calcStdInt() function
+# Call Type is SPN argument passed on calcStdInt() function - will be either 
+# single SPN or *ALL
+#===============================================================================
+
+
 #imports
 
 import csv
