@@ -69,12 +69,12 @@ def buildSPNDict(SPN):
     if SPN.upper() == "*ALL":
         f = open(filename,'rb')
         SPN1 = csv.reader(f,quoting=csv.QUOTE_NONNUMERIC)
-        SPNs = col.OrderedDict((row[0], row[1:]) for row in SPN1)
+        SPNs = col.OrderedDict((row[0].strip(), row[1:]) for row in SPN1)
     else:
         f = open(filename, 'rb')
         SPN1 = csv.reader(f,quoting=csv.QUOTE_NONNUMERIC)
-        rows = [row for row in SPN1 if row[0] == SPN]
-        SPNs = col.OrderedDict((row[0], row[1:]) for row in rows)
+        rows = [row for row in SPN1 if row[0].strip() == SPN]
+        SPNs = col.OrderedDict((row[0].strip(), row[1:]) for row in rows)
     
     return SPNs
 
@@ -92,42 +92,39 @@ def buildBalDict(SPN):
     else:
 
         for row in reader:
-
             if row[0].strip() == SPN:
                 accts_bal.append(Balances(row))
-        
+    
     return accts_bal
 
 def calcIBB(SPN, formula):
     global ibb
     ibb = 0
-    for sublist in accts_bal:
 
-        if sublist.spn == SPN:
-            print SPN
-            print sublist.spn
+    for accts in accts_bal:
+        if accts.spn == SPN:
             if formula == "A":
                 print "Underlying Balance: OTE"
-                ibb = sublist.ote
+                ibb = accts.ote
             elif formula == "B":
                 print "Underlying Balance: TE"
-                ibb = sublist.te
+                ibb = accts.te
             elif formula == "C":
                 print "Underlying Balance: Closing Balance"
-                ibb = sublist.closing_bal
+                ibb = accts.closing_bal
             elif formula == 'D':
                 print "Underlying Balance: IM"
-                ibb = sublist.im
+                ibb = accts.im
             elif formula == 'E':
                 print "Underlying Balance: Margin Exc/Def"    
-                ibb = sublist.med
+                ibb = accts.med
             elif formula == 'F':
                 print "Underlying Balance: TE + Margin Exc/Def"
-                ibb = sublist.ote + sublist.med
+                ibb = accts.ote + accts.med
             else:
                 print "Formula Calculation Method Not Found."
                 ibb = None
-           
+            
     return ibb
 
 def getFormula(SPN):
@@ -234,13 +231,6 @@ def calcStdInterest(SPN):
 
 #tests for calcStdInterest
 
-# print calcStdInterest('12345A'),'\n'
-# print calcStdInterest('67890A'),'\n'
-# print calcStdInterest('89012A'),'\n'
-# print calcStdInterest('34567B'),'\n'
-# print calcStdInterest('45678F'),'\n'
-#print calcStdInterest('78901G'),'\n'
-#print calcStdInterest('777397X'),'\n'
-
 print calcStdInterest('*ALL'),'\n'
-print calcStdInterest('99991ACM')
+#print calcStdInterest('30067AC'),'\n'
+#print calcStdInterest('91696ACM')
