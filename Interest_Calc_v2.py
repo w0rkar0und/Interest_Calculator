@@ -1,9 +1,8 @@
 '''
-Created on 13 Dec 2013
+Created on 17 Dec 2013
 
 @author: R053016
 '''
-
 #===============================================================================
 # v1 Iteration
 # Functionality:
@@ -24,13 +23,28 @@ Created on 13 Dec 2013
 # SPN, Processing Date, Formula, Base Rate, Applied Rate, IBB, Accrued Interest
 # , version ID = 0)
 # Added Execution Time "calculation"
+#
+#===============================================================================
+#===============================================================================
+# v3 Iteration
+# Functionality:
+#
+# Build Balances object using the Balances Class to replace the SPN + Balances
+# Dictionary (function buildBalDict)
+# Change calcIBB function to retrieve balance from list of Balances objects
+#
 #===============================================================================
 
+
+#imports
 
 import csv
 import collections as col
 import time
 import datetime
+from Balances import Balances
+
+#Base Interest Rate
 
 int_base_rate = 1.25
 
@@ -49,51 +63,55 @@ def buildSPNDict(SPN):
         SPN1 = csv.reader(f,quoting=csv.QUOTE_NONNUMERIC)
         rows = [row for row in SPN1 if row[0].strip() == SPN]
         SPNs = col.OrderedDict((row[0].strip(), row[1:]) for row in rows)
-    f.close()
+    
     return SPNs
 
 def buildBalDict(SPN):
     global accts_bal
     filename = "Balances.csv"
+    b = open(filename, 'rb')
+    reader = csv.reader(b, quoting=csv.QUOTE_NONNUMERIC)
+    accts_bal = []
 
     if SPN.upper() == "*ALL":
-        b = open(filename, 'rb')
-        acctsbal1 = csv.reader(b, quoting=csv.QUOTE_NONNUMERIC)
-        accts_bal = col.OrderedDict((row[0].strip(),row[1:]) for row in acctsbal1)
+
+        accts_bal = [Balances(row) for row in reader]
+    
     else:
-        b = open(filename, 'rb')
-        acctsbal1 = csv.reader(b, quoting=csv.QUOTE_NONNUMERIC)
-        rows = [row for row in acctsbal1 if row[0].strip() == SPN]
-        accts_bal = col.OrderedDict((row[0].strip(), row[1:]) for row in rows)
-    b.close()
+
+        for row in reader:
+            if row[0].strip() == SPN:
+                accts_bal.append(Balances(row))
+    
     return accts_bal
 
 def calcIBB(SPN, formula):
     global ibb
     ibb = 0
-    
-    if SPN in accts_bal.keys():
-        if formula == "A":
-            print "Underlying Balance: OTE"
-            ibb = accts_bal[SPN][0]
-        elif formula == "B":
-            print "Underlying Balance: TE"
-            ibb = accts_bal[SPN][2]
-        elif formula == "C":
-            print "Underlying Balance: Closing Balance"
-            ibb = accts_bal[SPN][1]
-        elif formula == 'D':
-            print "Underlying Balance: IM"
-            ibb = accts_bal[SPN][3]
-        elif formula == 'E':
-            print "Underlying Balance: Margin Exc/Def"    
-            ibb = accts_bal[SPN][4]
-        elif formula == 'F':
-            print "Underlying Balance: TE + Margin Exc/Def"
-            ibb = accts_bal[SPN][1] + accts_bal[SPN][4]
-        else:
-            print "Formula Calculation Method Not Found."
-            ibb = None
+
+    for accts in accts_bal:
+        if accts.spn == SPN:
+            if formula == "A":
+                print "Underlying Balance: OTE"
+                ibb = accts.ote
+            elif formula == "B":
+                print "Underlying Balance: TE"
+                ibb = accts.te
+            elif formula == "C":
+                print "Underlying Balance: Closing Balance"
+                ibb = accts.closing_bal
+            elif formula == 'D':
+                print "Underlying Balance: IM"
+                ibb = accts.im
+            elif formula == 'E':
+                print "Underlying Balance: Margin Exc/Def"    
+                ibb = accts.med
+            elif formula == 'F':
+                print "Underlying Balance: TE + Margin Exc/Def"
+                ibb = accts.ote + accts.med
+            else:
+                print "Formula Calculation Method Not Found."
+                ibb = None
             
     return ibb
 
@@ -207,5 +225,5 @@ def calcStdInterest(SPN):
 #print calcStdInterest('777397X'),'\n'
 
 #print calcStdInterest('*ALL'),'\n'
-
-print calcStdInterest('30067AC')  
+print calcStdInterest('30067AC'),'\n'
+print calcStdInterest('30083ACM')
