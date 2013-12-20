@@ -43,13 +43,13 @@ def buildSPNDict(SPN):
     if SPN.upper() == "*ALL":
         f = open(filename,'rb')
         SPN1 = csv.reader(f,quoting=csv.QUOTE_NONNUMERIC)
-        SPNs = col.OrderedDict((row[0], row[1:]) for row in SPN1)
+        SPNs = col.OrderedDict((row[0].strip(), row[1:]) for row in SPN1)
     else:
         f = open(filename, 'rb')
         SPN1 = csv.reader(f,quoting=csv.QUOTE_NONNUMERIC)
-        rows = [row for row in SPN1 if row[0] == SPN]
-        SPNs = col.OrderedDict((row[0], row[1:]) for row in rows)
-    filename.close()
+        rows = [row for row in SPN1 if row[0].strip() == SPN]
+        SPNs = col.OrderedDict((row[0].strip(), row[1:]) for row in rows)
+    f.close()
     return SPNs
 
 def buildBalDict(SPN):
@@ -59,13 +59,13 @@ def buildBalDict(SPN):
     if SPN.upper() == "*ALL":
         b = open(filename, 'rb')
         acctsbal1 = csv.reader(b, quoting=csv.QUOTE_NONNUMERIC)
-        accts_bal = col.OrderedDict((row[0],row[1:]) for row in acctsbal1)
+        accts_bal = col.OrderedDict((row[0].strip(),row[1:]) for row in acctsbal1)
     else:
         b = open(filename, 'rb')
         acctsbal1 = csv.reader(b, quoting=csv.QUOTE_NONNUMERIC)
-        rows = [row for row in acctsbal1 if row[0] == SPN]
-        accts_bal = col.OrderedDict((row[0], row[1:]) for row in rows)
-    filename.close()
+        rows = [row for row in acctsbal1 if row[0].strip() == SPN]
+        accts_bal = col.OrderedDict((row[0].strip(), row[1:]) for row in rows)
+    b.close()
     return accts_bal
 
 def calcIBB(SPN, formula):
@@ -78,10 +78,10 @@ def calcIBB(SPN, formula):
             ibb = accts_bal[SPN][0]
         elif formula == "B":
             print "Underlying Balance: TE"
-            ibb = accts_bal[SPN][1]
+            ibb = accts_bal[SPN][2]
         elif formula == "C":
             print "Underlying Balance: Closing Balance"
-            ibb = accts_bal[SPN][2]
+            ibb = accts_bal[SPN][1]
         elif formula == 'D':
             print "Underlying Balance: IM"
             ibb = accts_bal[SPN][3]
@@ -140,7 +140,6 @@ def writeAccruedInterest(table):
     wr = csv.writer(filename, dialect = 'excel')
     for row in table:
         wr.writerow(row)
-    filename.close()
 
 def calcStdInterest(SPN):
     t1 = datetime.datetime.now()
@@ -207,5 +206,6 @@ def calcStdInterest(SPN):
 #print calcStdInterest('78901G'),'\n'
 #print calcStdInterest('777397X'),'\n'
 
-print calcStdInterest('*ALL'),'\n'
-print calcStdInterest('9993ACM')  
+#print calcStdInterest('*ALL'),'\n'
+
+print calcStdInterest('30067AC')  
