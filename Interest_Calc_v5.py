@@ -191,8 +191,13 @@ def getRate(SPN):
 def buildAccruedInterest(SPN, date, form, int_base_rate, rate, ibb_type, ibb, acc_int, versionID, call_type):
     hash = hashlib.sha1()
     hash.update(str(versionID))
-    record = [str(SPN), str(date), form, int_base_rate, round(rate,2), ibb_type, round(ibb,2), round(acc_int,2), str(hash.hexdigest()), str(call_type)]
-    table.append(record)
+    record = []
+    print type(ibb_type)
+    if ibb_type != '':
+        record = [str(SPN), str(date), form, int_base_rate, round(rate,2), ibb_type, round(ibb,2), round(acc_int,2), str(hash.hexdigest()), str(call_type)]
+        table.append(record)
+    else:
+        pass
     
 def writeAccruedInterest(table):
     filename = open("Accrued Interest Date.csv", "ab")
