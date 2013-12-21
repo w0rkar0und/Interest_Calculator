@@ -65,7 +65,7 @@ import csv
 import collections as col
 import time
 import datetime
-from Balances import Balances
+from Balances_Date import Balances
 import hashlib
 
 #Base Interest Rate
@@ -92,7 +92,7 @@ def buildSPNDict(SPN):
 
 def buildBalDict(SPN):
     global accts_bal
-    filename = "Balances.csv"
+    filename = "Balances_Date.csv"
     b = open(filename, 'rb')
     reader = csv.reader(b, quoting=csv.QUOTE_NONNUMERIC)
     accts_bal = []
@@ -109,37 +109,45 @@ def buildBalDict(SPN):
     
     return accts_bal
 
+
+def selectedBals(balances,date):
+    global accts
+    accts = []
+    for acct in accts_bal:
+        if acct.date == date:
+            accts.append(acct)
+
 def calcIBB(SPN, formula):
     global ibb
     ibb = 0
     global ibb_type
     ibb_type = ' '
 
-    for accts in accts_bal:
-        if accts.spn == SPN:
+    for acct in accts:
+        if acct.spn == SPN:
             if formula == "A":
                 print "Underlying Balance: OTE"
-                ibb = accts.ote
+                ibb = acct.ote
                 ibb_type = "OTE"
             elif formula == "B":
                 print "Underlying Balance: TE"
-                ibb = accts.te
+                ibb = acct.te
                 ibb_type = "TE"
             elif formula == "C":
                 print "Underlying Balance: Closing Balance"
-                ibb = accts.closing_bal
+                ibb = acct.closing_bal
                 ibb_type = "Closing Bal"
             elif formula == 'D':
                 print "Underlying Balance: IM"
-                ibb = accts.im
+                ibb = acct.im
                 ibb_type = "IM"
             elif formula == 'E':
                 print "Underlying Balance: Margin Exc/Def"    
-                ibb = accts.med
+                ibb = acct.med
                 ibb_type = "MED"
             elif formula == 'F':
                 print "Underlying Balance: TE + Margin Exc/Def"
-                ibb = accts.te + accts.med
+                ibb = acct.te + acct.med
                 ibb_type = "TE + MED"
             else:
                 print "Formula Calculation Method Not Found."
@@ -192,7 +200,7 @@ def writeAccruedInterest(table):
     for row in table:
         wr.writerow(row)
 
-def calcStdInterest(SPN):
+def calcStdInterest(SPN,date):
     t1 = datetime.datetime.now()
     global call_type
     call_type = str(SPN)
@@ -201,10 +209,10 @@ def calcStdInterest(SPN):
     buildSPNDict(SPN)
 
     buildBalDict(SPN)
-
-    date = time.strftime("%x")
+    selectedBals(accts_bal,date)
+    print_date = time.strftime("%x")
     
-    print date
+    print print_date
     error = "Please check earlier messages. Missing Data. Interest Not Calculated."
     
     if SPN.upper()=='*ALL':
@@ -250,6 +258,6 @@ def calcStdInterest(SPN):
 
 #tests for calcStdInterest
 
-print calcStdInterest('*ALL'),'\n'
-#print calcStdInterest('30067AC'),'\n'
+print calcStdInterest('*ALL','12-21-2013'),'\n'
+print calcStdInterest('EE505AC','12-20-2013'),'\n'
 #print calcStdInterest('91696ACM')
