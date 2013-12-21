@@ -195,7 +195,7 @@ def buildAccruedInterest(SPN, date, form, int_base_rate, rate, ibb_type, ibb, ac
     table.append(record)
     
 def writeAccruedInterest(table):
-    filename = open("Accrued Interest.csv", "ab")
+    filename = open("Accrued Interest Date.csv", "ab")
     wr = csv.writer(filename, dialect = 'excel')
     for row in table:
         wr.writerow(row)
