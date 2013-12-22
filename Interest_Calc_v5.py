@@ -192,8 +192,7 @@ def buildAccruedInterest(SPN, date, form, int_base_rate, rate, ibb_type, ibb, ac
     hash = hashlib.sha1()
     hash.update(str(versionID))
     record = []
-    print type(ibb_type)
-    if not ibb_type == None:
+    if not ibb_type == " ":
         record = [str(SPN), str(date), form, int_base_rate, round(rate,2), ibb_type, round(ibb,2), round(acc_int,2), str(hash.hexdigest()), str(call_type)]
         table.append(record)
     else:
@@ -264,5 +263,6 @@ def calcStdInterest(SPN,date):
 #tests for calcStdInterest
 
 print calcStdInterest('*ALL','12-21-2013'),'\n'
-print calcStdInterest('EE505AC','12-20-2013'),'\n'
+#print calcStdInterest('EE505AC','12-19-2013'),'\n'
+#print calcStdInterest('EE505AC','12-21-2013'),'\n'
 #print calcStdInterest('91696ACM')
