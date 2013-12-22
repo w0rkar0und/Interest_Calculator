@@ -193,7 +193,7 @@ def buildAccruedInterest(SPN, date, form, int_base_rate, rate, ibb_type, ibb, ac
     hash.update(str(versionID))
     record = []
     print type(ibb_type)
-    if ibb_type != '':
+    if not ibb_type == None:
         record = [str(SPN), str(date), form, int_base_rate, round(rate,2), ibb_type, round(ibb,2), round(acc_int,2), str(hash.hexdigest()), str(call_type)]
         table.append(record)
     else:
