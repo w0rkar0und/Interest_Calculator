@@ -58,6 +58,14 @@ Created on 17 Dec 2013
 # of SPN works if value is shorter than stored value
 # Added IBB Type value to the output
 #===============================================================================
+#===============================================================================
+# v5 Iteration
+# Functionality:
+#
+# Added value date processing
+# Select balances based on date provided on the calcStdInt() function
+#===============================================================================
+
 
 #imports
 
