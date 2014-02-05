@@ -85,7 +85,7 @@ int_base_rate = 1.25
 
 def buildSPNDict(SPN):
     global SPNs
-    filename = "smallSPNsv6.csv"
+    filename = "SPNsv6.csv"
     SPNs = col.OrderedDict()
     if SPN.upper() == "*ALL":
         f = open(filename,'rb')
@@ -154,7 +154,8 @@ def calcIBB(SPN, formula):
     ibb_type = ' '
     for acct in accts:
         if SPN[0] == acct.spn and SPN[1] == acct.currency:
-
+            
+            
             if formula == "A":
                 print "Underlying Balance: OTE"
                 ibb = acct.ote
@@ -187,7 +188,7 @@ def calcIBB(SPN, formula):
                 return float(ibb)
             elif formula == 'F':
                 print "Underlying Balance: TE + Margin Exc/Def"
-                ibb = acct.te + acct.med
+                ibb = float(acct.te) + float(acct.med)
                 ibb_type = "TE + MED"
                 print "IBB:",ibb
                 return float(ibb)
