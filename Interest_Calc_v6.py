@@ -211,6 +211,7 @@ def getFormula(SPN,currency):
     
     if SPN in SPNs.keys():
         
+        
         int_formula = SPNs[SPN][0]
         print "Formula:",int_formula
     else:
@@ -323,7 +324,7 @@ def calcStdInterest(SPN,date):
                     print "IBB: %.2f" %ibb
                     accrued_interest = ibb * (float(rate)/100)
                     print "Accrued Interest: %.2f" %accrued_interest, '\n'
-                    if accrued_interest < 0:
+                    if accrued_interest < 0 and form <> "D":
                         accrued_interest = 0
                         print "Negative Interest Value. Accrued Interest set to 0",'\n'  
                 
