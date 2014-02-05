@@ -20,6 +20,6 @@ class Balances(object):
         self.ote = data[3]
         self.closing_bal = data[4]
         self.te = data[5]
-        self.im = data[6]
+        self.im = float(data[6]) * -1
         self.med = data[7]
         
