@@ -74,7 +74,7 @@ import csv
 import collections as col
 import time
 import datetime
-from Balances_Date_Currency import Balances
+from Balances_Date_Currency_v6 import Balances
 import hashlib
 
 #Base Interest Rate
