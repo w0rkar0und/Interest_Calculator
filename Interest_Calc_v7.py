@@ -74,7 +74,7 @@ import csv
 import collections as col
 import time
 import datetime
-from Balances_Date_Currency import Balances
+from Balances_Date_Currency_v7 import Balances
 import hashlib
 
 def buildSPNDict(SPN):
